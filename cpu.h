@@ -26,10 +26,15 @@
 #define OP_FNEG 18
 #define OP_FCMP 19
 
+typedef union {
+  uint32_t i;
+  float f;
+} IF;
+
 extern uint32_t pc;
 
 extern int32_t gpr[GPR_NUM];
-extern uint32_t fpr[FPR_NUM];
+extern IF fpr[FPR_NUM];
 
 extern uint32_t memory[MEM_NUM];
 

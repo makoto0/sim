@@ -24,15 +24,6 @@ void run()
   }
 }
 
-void print_reg()
-{
-  int i;
-
-  for (i=0;i<GPR_NUM;i++) {
-    printf("GPR %2d : %d\n",i,gpr[i]);
-  }
-}
-
 void printbin(uint32_t i) /* debug */
 {
   int k;
@@ -41,6 +32,20 @@ void printbin(uint32_t i) /* debug */
     printf("%d",(i>>k)&1);
   }
   printf("\n");
+}
+
+void print_reg()
+{
+  int i;
+
+  for (i=0;i<GPR_NUM;i++) {
+    printf("GPR %2d : %d\n",i,gpr[i]);
+  }
+
+  for (i=0;i<FPR_NUM;i++) {
+    printf("FPR %2d : ",i);
+    printbin(fpr[i].i);
+  }
 }
 
 void readinst(FILE* fp)

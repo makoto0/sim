@@ -5,7 +5,7 @@
 uint32_t pc=0;
 
 int32_t gpr[GPR_NUM]={};
-uint32_t fpr[FPR_NUM]={};
+IF fpr[FPR_NUM]={};
 
 uint32_t memory[MEM_NUM]={};
 
@@ -85,14 +85,27 @@ void exec_inst(uint32_t inst)
     pc++;
     break;
   case OP_FADD:
+    fpr[rd].f=fpr[rs].f+fpr[rt].f;
+    pc++;
     break;
   case OP_FMUL:
+    fpr[rd].f=fpr[rs].f*fpr[rt].f;
+    pc++;
     break;
   case OP_FINV:
+    fpr[rt].f=1.0/fpr[rs].f;
+    pc++;
     break;
   case OP_FABS:
+    if (fpr[rs].f<0) {
+      fpr[rt].f=-fpr[rs].f;
+    } else {
+      fpr[rt].f=fpr[rs].f;
+    }
+    pc++;
     break;
   case OP_FNEG:
+    fpr[rt].f=-fpr[rs].f;
     break;
   case OP_FCMP:
     break;
