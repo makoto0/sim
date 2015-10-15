@@ -1,2 +1,2 @@
-main:rize.c
-	gcc -Wall -o rize rize.c
+main:main.c cpu.c
+	gcc -Wall -o rin main.c cpu.c

@@ -1,9 +1,9 @@
-Rize : simulator for Cartelet
+Rin : simulator for Cartelet
 =========
 
 使い方  
 make  
-./rize [option] filename  
+./rin [option] filename  
 
 オプション  
 -h : help  
