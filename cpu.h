@@ -5,26 +5,37 @@
 #define FPR_NUM 32
 #define MEM_NUM (1<<20)
 
-#define OP_NOP   0
-#define OP_ADD   1
-#define OP_ADDI  2
-#define OP_SUB   3
-#define OP_SUBI  4
-#define OP_BEQ   5
-#define OP_ST    6
-#define OP_LD    7
-#define OP_JR    8
-#define OP_JAL   9
-#define OP_SEND 10
-#define OP_HALT 11
-#define OP_SLL  12
-#define OP_SRL  13
-#define OP_FADD 14
-#define OP_FMUL 15
-#define OP_FINV 16
-#define OP_FABS 17
-#define OP_FNEG 18
-#define OP_FCMP 19
+#define OP_NOP  0x0
+#define OP_ADD  0x1
+#define OP_ADDI 0x2
+#define OP_SUB  0x3
+#define OP_SUBI 0x4
+#define OP_BEQ  0x10
+#define OP_ST   0x8
+#define OP_LD   0x9
+#define OP_JR   0x12
+#define OP_JAL  0x13
+#define OP_SEND 0x20
+#define OP_HALT 0x21
+#define OP_SLL  0x5
+#define OP_SRL  0x6
+#define OP_FADD 0x30
+#define OP_FMUL 0x31
+#define OP_FINV 0x32
+#define OP_FABS 0x34
+#define OP_FNEG 0x33
+#define OP_SLT
+#define OP_BCLT
+#define OP_BCLF
+#define OP_SEND8
+#define OP_READ8
+#define OP_FST
+#define OP_FLD
+#define OP_BNEQ 0x11
+#define OP_FMOV
+
+
+#define HALT (OP_HALT<<26)
 
 typedef union {
   uint32_t i;

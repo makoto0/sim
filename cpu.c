@@ -9,12 +9,25 @@ IF fpr[FPR_NUM]={};
 
 uint32_t memory[MEM_NUM]={};
 
-void decode(uint32_t inst,uint32_t *opcode,uint32_t *rs,uint32_t *rt,uint32_t *rd,uint32_t *shamt,uint32_t *funct,int16_t *imm,uint32_t *addr)
+void printinst(uint32_t i) /* debug */
+{
+  int k;
+
+  for (k=31;k>=0;k--) {
+    printf("%d",(i>>k)&1);
+    if (k==26 || k==21 || k==16 || k==11 || k==6) {
+      printf(" ");
+    }
+  }
+  printf("\n");
+}
+
+void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r3,uint32_t *shamt,uint32_t *funct,int16_t *imm,uint32_t *addr)
 {
   *opcode=inst>>26;
-  *rs=(inst>>21)&0x1f;
-  *rt=(inst>>16)&0x1f;
-  *rd=(inst>>11)&0x1f;
+  *r1=(inst>>21)&0x1f;
+  *r2=(inst>>16)&0x1f;
+  *r3=(inst>>11)&0x1f;
   *shamt=(inst>>6)&0x1f;
   *funct=inst&0x3f;
   *imm=inst&0xffff;
@@ -23,94 +36,103 @@ void decode(uint32_t inst,uint32_t *opcode,uint32_t *rs,uint32_t *rt,uint32_t *r
 
 void exec_inst(uint32_t inst)
 {
-  uint32_t opcode,rs,rt,rd,shamt,funct,addr;
+  uint32_t opcode,r1,r2,r3,shamt,funct,addr;
   int16_t imm;
 
-  decode(inst,&opcode,&rs,&rt,&rd,&shamt,&funct,&imm,&addr);
+  decode(inst,&opcode,&r1,&r2,&r3,&shamt,&funct,&imm,&addr);
+
+  printinst(inst);
 
   switch (opcode) {
   case OP_NOP:
     pc++;
     break;
   case OP_ADD:
-    gpr[rd]=gpr[rs]+gpr[rt];
+    gpr[r1]=gpr[r2]+gpr[r3];
     pc++;
     break;
   case OP_ADDI:
-    gpr[rt]=gpr[rs]+imm;
+    gpr[r1]=gpr[r2]+imm;
     pc++;
     break;
   case OP_SUB:
-    gpr[rd]=gpr[rs]-gpr[rt];
+    gpr[r1]=gpr[r2]-gpr[r3];
     pc++;
     break;
   case OP_SUBI:
-    gpr[rt]=gpr[rs]-imm;
+    gpr[r1]=gpr[r2]-imm;
     pc++;
     break;
   case OP_BEQ:
-    if (gpr[rs]==gpr[rt]) {
+    if (gpr[r1]==gpr[r2]) {
+      pc=pc+1+imm;
+    } else {
+      pc++;
+    }
+    break;
+  case OP_BNEQ:
+    if (gpr[r1]!=gpr[r2]) {
       pc=pc+1+imm;
     } else {
       pc++;
     }
     break;
   case OP_ST:
-    memory[gpr[rs]]=gpr[rt];
+    memory[gpr[r1]]=gpr[r2];
     pc++;
     break;
   case OP_LD:
-    gpr[rt]=memory[gpr[rs]];
+    gpr[r2]=memory[gpr[r1]];
     pc++;
     break;
   case OP_JR:
-    pc=gpr[rs];
+    pc=gpr[r1];
     break;
   case OP_JAL:
     gpr[30]=pc+1;
     pc=addr;
     break;
   case OP_SEND:
-    printf("send %2d : %d\n",rs,gpr[rs]);
+    printf("send r%d : %d\n",r1,gpr[r1]);
     pc++;
     break;
   case OP_HALT:
     break;
   case OP_SLL:
-    gpr[rd]=gpr[rt]<<shamt;
+    gpr[r1]=gpr[r2]<<gpr[r3];
     pc++;
     break;
   case OP_SRL:
-    gpr[rd]=gpr[rt]>>shamt;
+    gpr[r1]=gpr[r2]>>gpr[r3];
     pc++;
     break;
   case OP_FADD:
-    fpr[rd].f=fpr[rs].f+fpr[rt].f;
+    fpr[r1].f=fpr[r2].f+fpr[r3].f;
     pc++;
     break;
   case OP_FMUL:
-    fpr[rd].f=fpr[rs].f*fpr[rt].f;
+    fpr[r1].f=fpr[r2].f*fpr[r3].f;
     pc++;
     break;
   case OP_FINV:
-    fpr[rt].f=1.0/fpr[rs].f;
+    fpr[r1].f=1.0/fpr[r2].f;
     pc++;
     break;
   case OP_FABS:
-    if (fpr[rs].f<0) {
-      fpr[rt].f=-fpr[rs].f;
+    if (fpr[r2].f<0) {
+      fpr[r1].f=-fpr[r2].f;
     } else {
-      fpr[rt].f=fpr[rs].f;
+      fpr[r1].f=fpr[r2].f;
     }
     pc++;
     break;
   case OP_FNEG:
-    fpr[rt].f=-fpr[rs].f;
-    break;
-  case OP_FCMP:
+    fpr[r1].f=-fpr[r2].f;
+    pc++;
     break;
   default:
     printf("Unknown instruction\n");
+    pc++;
     break;
   }
 }

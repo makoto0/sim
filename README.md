@@ -3,7 +3,8 @@ Rin : simulator for Cartelet
 
 使い方  
 make  
-./rin [option] filename  
+./rin [options] filename  
 
 オプション  
 -h : help  
+-s : step exec  
