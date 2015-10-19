@@ -3,6 +3,7 @@
 #include"cpu.h"
 
 uint32_t pc=0;
+uint32_t fpcond=0;
 
 int32_t gpr[GPR_NUM]={};
 IF fpr[FPR_NUM]={};
@@ -18,6 +19,16 @@ void printinst(uint32_t i) /* debug */
     if (k==26 || k==21 || k==16 || k==11 || k==6) {
       printf(" ");
     }
+  }
+  printf("\n");
+}
+
+void print8(uint32_t i)
+{
+  int k;
+
+  for (k=7;k>=0;k--) {
+    printf("%d",(i>>k)&1);
   }
   printf("\n");
 }
@@ -130,6 +141,61 @@ void exec_inst(uint32_t inst)
     fpr[r1].f=-fpr[r2].f;
     pc++;
     break;
+  case OP_SLT:
+    if (gpr[r2]<gpr[r3]) {
+      gpr[r1]=1;
+    } else {
+      gpr[r1]=0;
+    }
+    pc++;
+    break;
+  case OP_FSEQ:
+    if (fpr[r1].i==fpr[r2].i) {
+      fpcond=1;
+    } else {
+      fpcond=0;
+    }
+    pc++;
+    break;
+  case OP_FSLT:
+    if (fpr[r1].i<fpr[r2].i) {
+      fpcond=1;
+    } else {
+      fpcond=0;
+    }
+    pc++;
+    break;
+  case OP_BCLT:
+    if (fpcond==1) {
+      pc=pc+addr+1;
+    } else {
+      pc++;
+    }
+    break;
+  case OP_BCLF:
+    if (fpcond==0) {
+      pc=pc+addr+1;
+    } else {
+      pc++;
+    }
+    break;
+  case OP_SEND8:
+    printf("send8 r%d : ",r1);
+    print8(gpr[r1]);
+    pc++;
+    break;
+  case OP_FST:
+    memory[gpr[r1]]=fpr[r2].i;
+    pc++;
+    break;
+  case OP_FLD:
+    fpr[r2].i=memory[gpr[r1]];
+    pc++;
+    break;
+    /*  case OP_FMOV:
+    fpr[r1].i=fpr[r2].i;
+    pc++;
+    break;*/
   default:
     printf("Unknown instruction\n");
     pc++;
