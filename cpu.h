@@ -52,6 +52,37 @@ extern IF fpr[FPR_NUM];
 
 extern uint32_t memory[MEM_NUM];
 
+extern long long int nop_count;
+extern long long int add_count;
+extern long long int addi_count;
+extern long long int sub_count;
+extern long long int subi_count;
+extern long long int beq_count;
+extern long long int st_count;
+extern long long int ld_count;
+extern long long int jr_count;
+extern long long int jal_count;
+extern long long int send_count;
+extern long long int halt_count;
+extern long long int sll_count;
+extern long long int srl_count;
+extern long long int fadd_count;
+extern long long int fmul_count;
+extern long long int finv_count;
+extern long long int fabs_count;
+extern long long int fneg_count;
+extern long long int slt_count;
+extern long long int fseq_count;
+extern long long int fslt_count;
+extern long long int bclt_count;
+extern long long int bclf_count;
+extern long long int send8_count;
+extern long long int read8_count;
+extern long long int fst_count;
+extern long long int fld_count;
+extern long long int bneq_count;
+extern long long int fmov_count;
+
 void exec_inst();
 
 #endif

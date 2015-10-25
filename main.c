@@ -10,6 +10,72 @@
 int stepflag=0;
 int breakpoint[MEM_NUM]={};
 
+long long int nop_count=0;
+long long int add_count=0;
+long long int addi_count=0;
+long long int sub_count=0;
+long long int subi_count=0;
+long long int beq_count=0;
+long long int st_count=0;
+long long int ld_count=0;
+long long int jr_count=0;
+long long int jal_count=0;
+long long int send_count=0;
+long long int halt_count=0;
+long long int sll_count=0;
+long long int srl_count=0;
+long long int fadd_count=0;
+long long int fmul_count=0;
+long long int finv_count=0;
+long long int fabs_count=0;
+long long int fneg_count=0;
+long long int slt_count=0;
+long long int fseq_count=0;
+long long int fslt_count=0;
+long long int bclt_count=0;
+long long int bclf_count=0;
+long long int send8_count=0;
+long long int read8_count=0;
+long long int fst_count=0;
+long long int fld_count=0;
+long long int bneq_count=0;
+long long int fmov_count=0;
+
+void print_statistics()
+{
+  printf("===Statistics===\n");
+  printf("nop   : %lld\n",nop_count);
+  printf("add   : %lld\n",add_count);
+  printf("addi  : %lld\n",addi_count);
+  printf("sub   : %lld\n",sub_count);
+  printf("subi  : %lld\n",subi_count);
+  printf("beq   : %lld\n",beq_count);
+  printf("st    : %lld\n",st_count);
+  printf("ld    : %lld\n",ld_count);
+  printf("jr    : %lld\n",jr_count);
+  printf("jal   : %lld\n",jal_count);
+  printf("send  : %lld\n",send_count);
+  printf("halt  : %lld\n",halt_count);
+  printf("sll   : %lld\n",sll_count);
+  printf("srl   : %lld\n",srl_count);
+  printf("fadd  : %lld\n",fadd_count);
+  printf("fmul  : %lld\n",fmul_count);
+  printf("finv  : %lld\n",finv_count);
+  printf("fabs  : %lld\n",fabs_count);
+  printf("fneg  : %lld\n",fneg_count);
+  printf("slt   : %lld\n",slt_count);
+  printf("fseq  : %lld\n",fseq_count);
+  printf("fslt  : %lld\n",fslt_count);
+  printf("bclt  : %lld\n",bclt_count);
+  printf("bclf  : %lld\n",bclf_count);
+  printf("send8 : %lld\n",send8_count);
+  printf("read8 : %lld\n",read8_count);
+  printf("fst   : %lld\n",fst_count);
+  printf("fld   : %lld\n",fld_count);
+  printf("bneq  : %lld\n",bneq_count);
+  printf("fmov  : %lld\n",fmov_count);
+}
+
 void printbin(uint32_t i)
 {
   int k;
@@ -119,6 +185,8 @@ void command_input()
 	  puts("Invalid memory address.");
 	}
       }
+    } else if (strcmp(tok,"ps")==0) {
+      print_statistics();
     } else if (strcmp(tok,"h")==0 || strcmp(tok,"help")==0) {
       puts("commands");
       puts("h : help");
@@ -129,6 +197,7 @@ void command_input()
       puts("pg [n] : print GPR [n]");
       puts("pf [n] : print FPR [n]");
       puts("pm [addr] : print memory [addr]");
+      puts("ps : print statistics");
     } else {
       puts("Unknown command.");
     }
@@ -139,6 +208,7 @@ void run()
 {
   while(1) {
     if (memory[pc]==HALT) {
+      halt_count++;
       break;
     }
 
@@ -157,6 +227,8 @@ void run()
 void print_reg()
 {
   int i;
+
+  puts("===Register===");
 
   for (i=0;i<GPR_NUM;i++) {
     printf("GPR %2d : %d\n",i,gpr[i]);
@@ -223,6 +295,8 @@ int main(int argc,char* argv[])
   run();
 
   print_reg();
+  printf("\n");
+  print_statistics();
 
   return 0;
 }
