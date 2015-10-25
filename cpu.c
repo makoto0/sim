@@ -57,22 +57,27 @@ void exec_inst(uint32_t inst)
   switch (opcode) {
   case OP_NOP:
     pc++;
+    nop_count++;
     break;
   case OP_ADD:
     gpr[r1]=gpr[r2]+gpr[r3];
     pc++;
+    add_count++;
     break;
   case OP_ADDI:
     gpr[r1]=gpr[r2]+imm;
     pc++;
+    addi_count++;
     break;
   case OP_SUB:
     gpr[r1]=gpr[r2]-gpr[r3];
     pc++;
+    sub_count++;
     break;
   case OP_SUBI:
     gpr[r1]=gpr[r2]-imm;
     pc++;
+    subi_count++;
     break;
   case OP_BEQ:
     if (gpr[r1]==gpr[r2]) {
@@ -80,6 +85,7 @@ void exec_inst(uint32_t inst)
     } else {
       pc++;
     }
+    beq_count++;
     break;
   case OP_BNEQ:
     if (gpr[r1]!=gpr[r2]) {
@@ -87,47 +93,59 @@ void exec_inst(uint32_t inst)
     } else {
       pc++;
     }
+    bneq_count++;
     break;
   case OP_ST:
     memory[gpr[r1]]=gpr[r2];
     pc++;
+    st_count++;
     break;
   case OP_LD:
     gpr[r2]=memory[gpr[r1]];
     pc++;
+    ld_count++;
     break;
   case OP_JR:
     pc=gpr[r1];
+    jr_count++;
     break;
   case OP_JAL:
     gpr[30]=pc+1;
     pc=addr;
+    jal_count++;
     break;
   case OP_SEND:
     printf("send r%d : %d\n",r1,gpr[r1]);
     pc++;
+    send_count++;
     break;
   case OP_HALT:
+    halt_count++;
     break;
   case OP_SLL:
     gpr[r1]=gpr[r2]<<gpr[r3];
     pc++;
+    sll_count++;
     break;
   case OP_SRL:
     gpr[r1]=gpr[r2]>>gpr[r3];
     pc++;
+    srl_count++;
     break;
   case OP_FADD:
     fpr[r1].f=fpr[r2].f+fpr[r3].f;
     pc++;
+    fadd_count++;
     break;
   case OP_FMUL:
     fpr[r1].f=fpr[r2].f*fpr[r3].f;
     pc++;
+    fmul_count++;
     break;
   case OP_FINV:
     fpr[r1].f=1.0/fpr[r2].f;
     pc++;
+    finv_count++;
     break;
   case OP_FABS:
     if (fpr[r2].f<0) {
@@ -136,10 +154,12 @@ void exec_inst(uint32_t inst)
       fpr[r1].f=fpr[r2].f;
     }
     pc++;
+    fabs_count++;
     break;
   case OP_FNEG:
     fpr[r1].f=-fpr[r2].f;
     pc++;
+    fneg_count++;
     break;
   case OP_SLT:
     if (gpr[r2]<gpr[r3]) {
@@ -148,6 +168,7 @@ void exec_inst(uint32_t inst)
       gpr[r1]=0;
     }
     pc++;
+    slt_count++;
     break;
   case OP_FSEQ:
     if (fpr[r1].i==fpr[r2].i) {
@@ -156,6 +177,7 @@ void exec_inst(uint32_t inst)
       fpcond=0;
     }
     pc++;
+    fseq_count++;
     break;
   case OP_FSLT:
     if (fpr[r1].i<fpr[r2].i) {
@@ -164,6 +186,7 @@ void exec_inst(uint32_t inst)
       fpcond=0;
     }
     pc++;
+    fslt_count++;
     break;
   case OP_BCLT:
     if (fpcond==1) {
@@ -171,6 +194,7 @@ void exec_inst(uint32_t inst)
     } else {
       pc++;
     }
+    bclt_count++;
     break;
   case OP_BCLF:
     if (fpcond==0) {
@@ -178,23 +202,28 @@ void exec_inst(uint32_t inst)
     } else {
       pc++;
     }
+    bclf_count++;
     break;
   case OP_SEND8:
     printf("send8 r%d : ",r1);
     print8(gpr[r1]);
     pc++;
+    send8_count++;
     break;
   case OP_FST:
     memory[gpr[r1]]=fpr[r2].i;
     pc++;
+    fst_count++;
     break;
   case OP_FLD:
     fpr[r2].i=memory[gpr[r1]];
     pc++;
+    fld_count++;
     break;
     /*  case OP_FMOV:
     fpr[r1].i=fpr[r2].i;
     pc++;
+    fmov_count++;
     break;*/
   default:
     printf("Unknown instruction\n");
