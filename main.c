@@ -39,6 +39,7 @@ void command_input()
   char *tok;
   int regnum;
   uint32_t addr;
+  int times;
 
   while (1) {
     printf(">");
@@ -63,6 +64,31 @@ void command_input()
 	  breakpoint[addr]=1;
 	  printf("set breakpoint : ");
 	  printbin(addr);
+	} else {
+	  puts("Invalid memory address.");
+	}
+      }
+    } else if (strcmp(tok,"bi")==0) {
+      tok=strtok(NULL," \n");
+      if (tok==NULL) {
+	puts("Please enter breakpoint address and n.");
+      } else {
+	addr=atoi(tok);
+	if (addr>=0 && addr<MEM_NUM) {
+	  tok=strtok(NULL," \n");
+	  if (tok==NULL) {
+	    puts("Please enter n.");
+	  } else {
+	    times=atoi(tok);
+	    if (times>0) {
+	      breakpoint[addr]=times+1;
+	      printf("set breakpoint : ");
+	      printbin(addr);
+	      printf("n = %d\n",times);
+	    } else {
+	      puts("n must be positive number.");
+	    }
+	  }
 	} else {
 	  puts("Invalid memory address.");
 	}
@@ -144,6 +170,8 @@ void run()
 
     if (breakpoint[pc]==1) {
       stepflag=1;
+    } else if (breakpoint[pc]>1) {
+      breakpoint[pc]--;
     }
 
     if (stepflag==1) {
