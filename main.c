@@ -35,7 +35,7 @@ long long int fslt_count=0;
 long long int bclt_count=0;
 long long int bclf_count=0;
 long long int send8_count=0;
-long long int read8_count=0;
+long long int recv8_count=0;
 long long int fst_count=0;
 long long int fld_count=0;
 long long int bneq_count=0;
@@ -69,7 +69,7 @@ void print_statistics()
   printf("bclt  : %lld\n",bclt_count);
   printf("bclf  : %lld\n",bclf_count);
   printf("send8 : %lld\n",send8_count);
-  printf("read8 : %lld\n",read8_count);
+  printf("recv8 : %lld\n",recv8_count);
   printf("fst   : %lld\n",fst_count);
   printf("fld   : %lld\n",fld_count);
   printf("bneq  : %lld\n",bneq_count);

@@ -30,11 +30,11 @@
 #define OP_BCLT  0x15
 #define OP_BCLF  0x16
 #define OP_SEND8 0x22
-#define OP_READ8 
+#define OP_RECV8 0x23
 #define OP_FST   0x35
 #define OP_FLD   0x36
 #define OP_BNEQ  0x11
-#define OP_FMOV  
+#define OP_FMOV  0x39
 
 
 #define HALT (OP_HALT<<26)
@@ -77,7 +77,7 @@ extern long long int fslt_count;
 extern long long int bclt_count;
 extern long long int bclf_count;
 extern long long int send8_count;
-extern long long int read8_count;
+extern long long int recv8_count;
 extern long long int fst_count;
 extern long long int fld_count;
 extern long long int bneq_count;

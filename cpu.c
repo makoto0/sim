@@ -50,6 +50,8 @@ void exec_inst(uint32_t inst)
   uint32_t opcode,r1,r2,r3,shamt,funct,addr;
   int16_t imm;
 
+  uint32_t recvdata;
+
   decode(inst,&opcode,&r1,&r2,&r3,&shamt,&funct,&imm,&addr);
 
   printinst(inst);
@@ -210,6 +212,14 @@ void exec_inst(uint32_t inst)
     pc++;
     send8_count++;
     break;
+  case OP_RECV8:
+    printf("recv8(hexで入力)>");
+    scanf("%x",&recvdata);
+    print8(recvdata);
+    gpr[r1]=(gpr[r1]&0xffffff00)|recvdata;
+    pc++;
+    recv8_count++;
+    break;
   case OP_FST:
     memory[gpr[r1]]=fpr[r2].i;
     pc++;
@@ -220,11 +230,11 @@ void exec_inst(uint32_t inst)
     pc++;
     fld_count++;
     break;
-    /*  case OP_FMOV:
+  case OP_FMOV:
     fpr[r1].i=fpr[r2].i;
     pc++;
     fmov_count++;
-    break;*/
+    break;
   default:
     printf("Unknown instruction\n");
     pc++;

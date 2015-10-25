@@ -19,3 +19,4 @@ db [addr] : [addr]に設定したbreakpointを削除
 pg [n] : print GPR [n]  
 pf [n] : print FPR [n]  
 pm [addr] : print memory [addr]  
+ps : print statistics  
