@@ -6,7 +6,7 @@ int main(int argc,char *argv[])
   FILE *fpin,*fpout;
   char buf[1024];
   uint32_t inst;
-  int i;
+  int i,j;
 
   if (argc!=3) {
     printf("usage : ./asm [input file] [output file]\n");
@@ -26,15 +26,16 @@ int main(int argc,char *argv[])
   }
 
   while (fscanf(fpin,"%s",buf)!=EOF) {
-    inst=0;
-
-    for (i=0;i<32;i++) {
-      if (buf[i]=='1') {
-	inst+=1<<(31-i);
+    for (j=0;j<4;j++) {
+      inst=0;
+      for (i=0;i<8;i++) {
+	if (buf[8*j+i]=='1') {
+	  inst+=1<<(7-i);
+	}
       }
+      
+      fwrite(&inst,1,1,fpout);
     }
-
-    fwrite(&inst,sizeof(uint32_t),1,fpout);
   }
 
   fclose(fpin);

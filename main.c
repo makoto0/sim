@@ -271,9 +271,24 @@ void print_reg()
 void readinst(FILE* fp)
 {
   uint32_t inst;
+  uint32_t data;
   uint32_t instnum=0;
+  size_t rnum;
+  int i;
 
-  while (fread(&inst,sizeof(uint32_t),1,fp)>0) {
+  while (1) {
+    inst=0;
+
+    for (i=3;i>=0;i--) {
+      rnum=fread(&data,1,1,fp);
+      if (rnum==0) {
+	break;
+      }
+      inst+=data<<(8*i);
+    }
+    if (rnum==0) {
+      break;
+    }
     memory[instnum]=inst;
     instnum++;
   }
