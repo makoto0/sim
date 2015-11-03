@@ -52,6 +52,11 @@ extern IF fpr[FPR_NUM];
 
 extern uint32_t memory[MEM_NUM];
 
+extern FILE* fpsend8;
+
+extern int send8flag;
+extern int noprintflag;
+
 extern long long int nop_count;
 extern long long int add_count;
 extern long long int addi_count;

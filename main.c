@@ -7,7 +7,11 @@
 
 #define MAXBUF 1024
 
+FILE* fpsend8;
+
 int stepflag=0;
+int send8flag=0;
+int noprintflag=0;
 int breakpoint[MEM_NUM]={};
 
 long long int nop_count=0;
@@ -96,7 +100,6 @@ void printfloat(uint32_t i)
       printf(" ");
     }
   }
-  printf("\n");
 }
 
 void command_input()
@@ -265,6 +268,7 @@ void print_reg()
   for (i=0;i<FPR_NUM;i++) {
     printf("FPR %2d : ",i);
     printfloat(fpr[i].i);
+    printf(" , %lf\n",fpr[i].f);
   }
 }
 
@@ -304,16 +308,29 @@ int main(int argc,char* argv[])
     return 1;
   }
 
-  while ((option=getopt(argc,argv,"hs"))!=-1) {
+  while ((option=getopt(argc,argv,"hsor"))!=-1) {
     switch (option) {
     case 'h':
       printf("usage: %s [options] filename\n",argv[0]);
       printf("options\n");
       printf("-h : help\n");
       printf("-s : step exec\n");
+      printf("-o [filename] : output send8 in binary file\n");
+      printf("-r : output result only\n");
       return 0;
     case 's':
       stepflag=1;
+      break;
+    case 'o':
+      send8flag=1;
+      fpsend8=fopen(optarg,"wb");
+      if (fpsend8==NULL) {
+	printf("can't open file : %s\n",optarg);
+	return 1;
+      }
+      break;
+    case 'r':
+      noprintflag=1;
       break;
     default:
       printf("Unknown option\n");
@@ -340,6 +357,10 @@ int main(int argc,char* argv[])
   print_reg();
   printf("\n");
   print_statistics();
+
+  if (send8flag) {
+    fclose(fpsend8);
+  }
 
   return 0;
 }
