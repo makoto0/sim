@@ -9,12 +9,12 @@ make
 -h : help  
 -s : step exec  
 
-step実行時コマンド　（入力時[]はつけない）
+step実行時コマンド　（入力時[]はつけない）  
 h , help : help  
 r , run : run  
 s , step : step  
 b [addr] : [addr]にbreakpointを設定  
-bi [addr] [n] : はじめの[n]回はbreakpointに達しても停止しない
+bi [addr] [n] : はじめの[n]回はbreakpointに達しても停止しない  
 db [addr] : [addr]に設定したbreakpointを削除  
 pg [n] : print GPR [n]  
 pf [n] : print FPR [n]  
