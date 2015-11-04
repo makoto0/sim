@@ -145,10 +145,10 @@ void exec_inst(uint32_t inst)
     jr_count++;
     break;
   case OP_JAL:
-    gpr[30]=pc+1;
+    gpr[31]=pc+1;
     pc=addr;
     if (!noprintflag) {
-      printf("jal : r30 <- pc + 1; pc <- %d\n",addr);
+      printf("jal : r31 <- pc + 1; pc <- %d\n",addr);
     }
     jal_count++;
     break;
