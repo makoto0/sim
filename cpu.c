@@ -282,9 +282,7 @@ void exec_inst(uint32_t inst)
     break;
   case OP_SEND8:
     if (send8flag) {
-      senddata=(gpr[r1]>>4)&0xf;
-      fwrite(&senddata,1,1,fpsend8);
-      senddata=gpr[r1]&0xf;
+      senddata=gpr[r1]&0xff;
       fwrite(&senddata,1,1,fpsend8);
     }
     if (!noprintflag) {
