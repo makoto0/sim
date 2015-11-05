@@ -12,7 +12,7 @@ FILE* fpsend8;
 int stepflag=0;
 int send8flag=0;
 int noprintflag=0;
-int breakpoint[MEM_NUM]={};
+int breakpoint[BRAM_NUM]={};
 
 int datasize,textsize;
 
@@ -131,7 +131,7 @@ void command_input()
 	puts("Please enter breakpoint address.");
       } else {
 	addr=atoi(tok);
-	if (addr>=0 && addr<MEM_NUM) {
+	if (addr>=0 && addr<BRAM_NUM) {
 	  breakpoint[addr]=1;
 	  printf("set breakpoint : ");
 	  printbin(addr);
@@ -145,7 +145,7 @@ void command_input()
 	puts("Please enter breakpoint address and n.");
       } else {
 	addr=atoi(tok);
-	if (addr>=0 && addr<MEM_NUM) {
+	if (addr>=0 && addr<BRAM_NUM) {
 	  tok=strtok(NULL," \n");
 	  if (tok==NULL) {
 	    puts("Please enter n.");
@@ -170,7 +170,7 @@ void command_input()
 	puts("Please enter breakpoint address.");
       } else {
 	addr=atoi(tok);
-	if (addr>=0 && addr<MEM_NUM) {
+	if (addr>=0 && addr<BRAM_NUM) {
 	  breakpoint[addr]=0;
 	  printf("delete breakpoint : ");
 	  printbin(addr);
@@ -209,9 +209,9 @@ void command_input()
 	puts("Please enter the memory address.");
       } else {
 	addr=atoi(tok);
-	if (addr>=0 && addr<MEM_NUM) {
+	if (addr>=0 && addr<SRAM_NUM) {
 	  printf("memory %d : ",addr);
-	  printbin(memory[addr]);
+	  printbin(sram[addr]);
 	} else {
 	  puts("Invalid memory address.");
 	}
@@ -238,7 +238,7 @@ void command_input()
 void run()
 {
   while(1) {
-    if (memory[pc]==HALT) {
+    if (bram[pc]==HALT) {
       halt_count++;
       break;
     }
@@ -253,7 +253,7 @@ void run()
       command_input();
     }
 
-    exec_inst(memory[pc]);
+    exec_inst(bram[pc]);
   }
 }
 
@@ -277,10 +277,11 @@ void print_reg()
 void readinst(FILE* fp)
 {
   uint32_t inst;
-  uint32_t data;
-  uint32_t instnum=0;
+  uint32_t data=0;
   size_t rnum;
   int i;
+  uint32_t addr;
+  int dataflag;
 
   while (1) {
     inst=0;
@@ -292,16 +293,25 @@ void readinst(FILE* fp)
       }
       inst+=data<<(8*i);
     }
+
     if (rnum==0 || inst>>24==0x03) {
       break;
     } else if (inst>>24==0x01) {
       textsize=inst&0xffffff;
+      addr=0;
+      dataflag=0;
     } else if (inst>>24==0x02) {
       datasize=inst&0xffffff;
-      pc+=datasize;
+      addr=0;
+      dataflag=1;
     } else {
-      memory[instnum]=inst;
-      instnum++;
+      if (dataflag) {
+	sram[addr]=inst;
+	addr++;
+      } else {
+	bram[addr]=inst;
+	addr++;
+      }
     }
   }
 }

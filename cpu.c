@@ -8,7 +8,8 @@ uint32_t fpcond=0;
 int32_t gpr[GPR_NUM]={};
 IF fpr[FPR_NUM]={};
 
-uint32_t memory[MEM_NUM]={};
+uint32_t sram[SRAM_NUM]={};
+uint32_t bram[BRAM_NUM]={};
 
 void printinst(uint32_t i) /* debug */
 {
@@ -122,7 +123,7 @@ void exec_inst(uint32_t inst)
     bneq_count++;
     break;
   case OP_ST:
-    memory[gpr[r1]]=gpr[r2];
+    sram[gpr[r1]]=gpr[r2];
     if (!noprintflag) {
       printf("st : mem[r%d] <- r%d\n",r1,r2);
     }
@@ -130,7 +131,7 @@ void exec_inst(uint32_t inst)
     st_count++;
     break;
   case OP_LD:
-    gpr[r2]=memory[gpr[r1]];
+    gpr[r2]=sram[gpr[r1]];
     if (!noprintflag) {
       printf("st : r%d <- mem[r%d]\n",r2,r1);
     }
@@ -304,7 +305,7 @@ void exec_inst(uint32_t inst)
     recv8_count++;
     break;
   case OP_FST:
-    memory[gpr[r1]]=fpr[r2].i;
+    sram[gpr[r1]]=fpr[r2].i;
     if (!noprintflag) {
       printf("fst : mem[r%d] <- f%d\n",r1,r2);
     }
@@ -312,7 +313,7 @@ void exec_inst(uint32_t inst)
     fst_count++;
     break;
   case OP_FLD:
-    fpr[r2].i=memory[gpr[r1]];
+    fpr[r2].i=sram[gpr[r1]];
     if (!noprintflag) {
       printf("fld : f%d <- mem[r%d]\n",r2,r1);
     }

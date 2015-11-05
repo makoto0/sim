@@ -3,7 +3,8 @@
 
 #define GPR_NUM 32
 #define FPR_NUM 32
-#define MEM_NUM (1<<20)
+#define SRAM_NUM (1<<20)
+#define BRAM_NUM (1<<20)
 
 #define OP_NOP   0x00
 #define OP_ADD   0x01
@@ -50,7 +51,8 @@ extern uint32_t fpcond;
 extern int32_t gpr[GPR_NUM];
 extern IF fpr[FPR_NUM];
 
-extern uint32_t memory[MEM_NUM];
+extern uint32_t sram[SRAM_NUM];
+extern uint32_t bram[BRAM_NUM];
 
 extern FILE* fpsend8;
 
