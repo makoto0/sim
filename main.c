@@ -14,6 +14,8 @@ int send8flag=0;
 int noprintflag=0;
 int breakpoint[MEM_NUM]={};
 
+int datasize,textsize;
+
 long long int nop_count=0;
 long long int add_count=0;
 long long int addi_count=0;
@@ -290,11 +292,17 @@ void readinst(FILE* fp)
       }
       inst+=data<<(8*i);
     }
-    if (rnum==0) {
+    if (rnum==0 || inst>>24==0x03) {
       break;
+    } else if (inst>>24==0x01) {
+      textsize=inst&0xffffff;
+    } else if (inst>>24==0x02) {
+      datasize=inst&0xffffff;
+      pc+=datasize;
+    } else {
+      memory[instnum]=inst;
+      instnum++;
     }
-    memory[instnum]=inst;
-    instnum++;
   }
 }
 
@@ -308,7 +316,7 @@ int main(int argc,char* argv[])
     return 1;
   }
 
-  while ((option=getopt(argc,argv,"hsor"))!=-1) {
+  while ((option=getopt(argc,argv,"hso:r"))!=-1) {
     switch (option) {
     case 'h':
       printf("usage: %s [options] filename\n",argv[0]);
