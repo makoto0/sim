@@ -34,7 +34,7 @@ void print8(uint32_t i)
   printf("\n");
 }
 
-void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r3,uint32_t *shamt,uint32_t *funct,int16_t *imm,uint32_t *addr)
+void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r3,uint32_t *shamt,uint32_t *funct,int16_t *imm,uint16_t *uimm,uint32_t *addr)
 {
   *opcode=inst>>26;
   *r1=(inst>>21)&0x1f;
@@ -43,6 +43,7 @@ void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r
   *shamt=(inst>>6)&0x1f;
   *funct=inst&0x3f;
   *imm=inst&0xffff;
+  *uimm=inst&0xffff;
   *addr=inst&0x3ffffff;
 }
 
@@ -50,11 +51,12 @@ void exec_inst(uint32_t inst)
 {
   uint32_t opcode,r1,r2,r3,shamt,funct,addr;
   int16_t imm;
+  uint16_t uimm;
 
   uint32_t recvdata;
   uint8_t senddata;
 
-  decode(inst,&opcode,&r1,&r2,&r3,&shamt,&funct,&imm,&addr);
+  decode(inst,&opcode,&r1,&r2,&r3,&shamt,&funct,&imm,&uimm,&addr);
 
   if (!noprintflag) {
     printinst(inst);
@@ -327,6 +329,14 @@ void exec_inst(uint32_t inst)
     }
     pc++;
     fmov_count++;
+    break;
+  case OP_ADDIU:
+    gpr[r1]=gpr[r2]+uimm;
+    if (!noprintflag) {
+      printf("addiu : r%d <- r%d + %d\n",r1,r2,uimm);
+    }
+    pc++;
+    addiu_count++;
     break;
   default:
     printf("Unknown instruction\n");

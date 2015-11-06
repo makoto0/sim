@@ -36,6 +36,7 @@
 #define OP_FLD   0x36
 #define OP_BNEQ  0x11
 #define OP_FMOV  0x39
+#define OP_ADDIU 0x17
 
 
 #define HALT (OP_HALT<<26)
@@ -89,6 +90,7 @@ extern long long int fst_count;
 extern long long int fld_count;
 extern long long int bneq_count;
 extern long long int fmov_count;
+extern long long int addiu_count;
 
 void exec_inst();
 
