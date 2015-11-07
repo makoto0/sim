@@ -55,8 +55,10 @@ extern IF fpr[FPR_NUM];
 extern uint32_t sram[SRAM_NUM];
 extern uint32_t bram[BRAM_NUM];
 
+extern FILE* fprecv8;
 extern FILE* fpsend8;
 
+extern int recv8flag;
 extern int send8flag;
 extern int noprintflag;
 

@@ -125,17 +125,17 @@ void exec_inst(uint32_t inst)
     bneq_count++;
     break;
   case OP_ST:
-    sram[gpr[r1]]=gpr[r2];
+    sram[gpr[r1]+imm]=gpr[r2];
     if (!noprintflag) {
-      printf("st : mem[r%d] <- r%d\n",r1,r2);
+      printf("st : mem[r%d + %d] <- r%d\n",r1,imm,r2);
     }
     pc++;
     st_count++;
     break;
   case OP_LD:
-    gpr[r2]=sram[gpr[r1]];
+    gpr[r2]=sram[gpr[r1]+imm];
     if (!noprintflag) {
-      printf("st : r%d <- mem[r%d]\n",r2,r1);
+      printf("st : r%d <- mem[r%d + %d]\n",r2,r1,imm);
     }
     pc++;
     ld_count++;
@@ -296,28 +296,30 @@ void exec_inst(uint32_t inst)
     send8_count++;
     break;
   case OP_RECV8:
-    printf("recv8(hexで入力)>");
-    scanf("%x",&recvdata);
-    print8(recvdata);
+    if (recv8flag && fread(&recvdata,1,1,fprecv8)==0) {
+      printf("recv8(hexで入力)>");
+      scanf("%x",&recvdata);
+    }
     gpr[r1]=(gpr[r1]&0xffffff00)|recvdata;
     if (!noprintflag) {
-      printf("recv8 : r%d\n",r1);
+      printf("recv8 : r%d <- ",r1);
+      print8(recvdata);
     }
     pc++;
     recv8_count++;
     break;
   case OP_FST:
-    sram[gpr[r1]]=fpr[r2].i;
+    sram[gpr[r1]+imm]=fpr[r2].i;
     if (!noprintflag) {
-      printf("fst : mem[r%d] <- f%d\n",r1,r2);
+      printf("fst : mem[r%d + %d] <- f%d\n",r1,imm,r2);
     }
     pc++;
     fst_count++;
     break;
   case OP_FLD:
-    fpr[r2].i=sram[gpr[r1]];
+    fpr[r2].i=sram[gpr[r1]+imm];
     if (!noprintflag) {
-      printf("fld : f%d <- mem[r%d]\n",r2,r1);
+      printf("fld : f%d <- mem[r%d + %d]\n",r2,r1,imm);
     }
     pc++;
     fld_count++;

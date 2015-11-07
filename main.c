@@ -7,9 +7,11 @@
 
 #define MAXBUF 1024
 
+FILE* fprecv8;
 FILE* fpsend8;
 
 int stepflag=0;
+int recv8flag=0;
 int send8flag=0;
 int noprintflag=0;
 int breakpoint[BRAM_NUM]={};
@@ -328,18 +330,27 @@ int main(int argc,char* argv[])
     return 1;
   }
 
-  while ((option=getopt(argc,argv,"hso:r"))!=-1) {
+  while ((option=getopt(argc,argv,"hsi:o:r"))!=-1) {
     switch (option) {
     case 'h':
       printf("usage: %s [options] filename\n",argv[0]);
       printf("options\n");
       printf("-h : help\n");
       printf("-s : step exec\n");
+      printf("-i [filename] : input recv8 from binary file\n");
       printf("-o [filename] : output send8 in binary file\n");
       printf("-r : output result only\n");
       return 0;
     case 's':
       stepflag=1;
+      break;
+    case 'i':
+      recv8flag=1;
+      fprecv8=fopen(optarg,"rb");
+      if (fprecv8==NULL) {
+	printf("can't open file : %s\n",optarg);
+	return 1;
+      }
       break;
     case 'o':
       send8flag=1;

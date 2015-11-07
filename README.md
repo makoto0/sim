@@ -8,7 +8,8 @@ make
 オプション  
 -h : help  
 -s : step exec  
--o [filename] : send8のデータを[filename]にバイナリファイルとして出力  
+-i [filename] : recv8のデータを[filename]（バイナリファイル）から読み込み  
+-o [filename] : send8のデータを[filename]（バイナリファイル）に出力  
 -r : 結果のみを表示  
 
 step実行時コマンド　（入力時[]はつけない）  
