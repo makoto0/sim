@@ -53,8 +53,8 @@ void exec_inst(uint32_t inst)
   int16_t imm;
   uint16_t uimm;
 
-  uint32_t recvdata;
-  uint8_t senddata;
+  uint32_t recvdata=0;
+  uint8_t senddata=0;
 
   decode(inst,&opcode,&r1,&r2,&r3,&shamt,&funct,&imm,&uimm,&addr);
 
