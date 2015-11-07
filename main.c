@@ -119,6 +119,7 @@ void command_input()
   int regnum;
   uint32_t addr;
   int times;
+  int i;
 
   while (1) {
     printf(">");
@@ -141,8 +142,7 @@ void command_input()
 	addr=atoi(tok);
 	if (addr>=0 && addr<BRAM_NUM) {
 	  breakpoint[addr]=1;
-	  printf("set breakpoint : ");
-	  printbin(addr);
+	  printf("set breakpoint : %d\n",addr);
 	} else {
 	  puts("Invalid memory address.");
 	}
@@ -161,8 +161,7 @@ void command_input()
 	    times=atoi(tok);
 	    if (times>0) {
 	      breakpoint[addr]=times+1;
-	      printf("set breakpoint : ");
-	      printbin(addr);
+	      printf("set breakpoint : %d\n",addr);
 	      printf("n = %d\n",times);
 	    } else {
 	      puts("n must be positive number.");
@@ -228,6 +227,14 @@ void command_input()
       print_statistics();
     } else if (strcmp(tok,"pp")==0) {
       printf("pc : %d\n",pc);
+    } else if (strcmp(tok,"pb")==0) {
+      for (i=0;i<BRAM_NUM;i++) {
+	if (breakpoint[i]==1) {
+	  printf("breakpoint : %d\n",i);
+	} else if (breakpoint[i]>1) {
+	  printf("breakpoint ignore : %d (n = %d)\n",i,breakpoint[i]-1);
+	}
+      }
     } else if (strcmp(tok,"dg")==0) {
       tok=strtok(NULL," \n");
       if (tok==NULL) {
@@ -267,6 +274,7 @@ void command_input()
       puts("pm [addr] : print memory [addr]");
       puts("ps : print statistics");
       puts("pp : print PC");
+      puts("pb : print breakpoints");
       puts("dg [n] : display GPR [n]");
       puts("df [n] : display FPR [n]");
     } else {
