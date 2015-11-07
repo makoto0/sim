@@ -222,6 +222,8 @@ void command_input()
       }
     } else if (strcmp(tok,"ps")==0) {
       print_statistics();
+    } else if (strcmp(tok,"pp")==0) {
+      printf("pc : %d\n",pc);
     } else if (strcmp(tok,"h")==0 || strcmp(tok,"help")==0) {
       puts("commands");
       puts("h : help");
@@ -233,6 +235,7 @@ void command_input()
       puts("pf [n] : print FPR [n]");
       puts("pm [addr] : print memory [addr]");
       puts("ps : print statistics");
+      puts("pp : print PC");
     } else {
       puts("Unknown command.");
     }

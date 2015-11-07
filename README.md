@@ -23,3 +23,4 @@ pg [n] : print GPR [n]
 pf [n] : print FPR [n]  
 pm [addr] : print memory [addr]  
 ps : print statistics  
+pp : print PC  
