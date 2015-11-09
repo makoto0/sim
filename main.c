@@ -204,8 +204,9 @@ void command_input()
       } else {
 	regnum=atoi(tok);
 	if (regnum>=0 && regnum<FPR_NUM) {
-	  printf("FPR %d : \n",regnum);
+	  printf("FPR %2d : ",regnum);
 	  printfloat(fpr[regnum].i);
+	  printf(" , %lf\n",fpr[regnum].f);
 	} else {
 	  puts("Invalid register number.");
 	}
@@ -255,7 +256,7 @@ void command_input()
       } else {
 	regnum=atoi(tok);
 	if (regnum>=0 && regnum<FPR_NUM) {
-	  gdisp[regnum]=1;
+	  fdisp[regnum]=1;
 	  printf("display : FPR %d\n",regnum);
 	} else {
 	  puts("Invalid register number.");
@@ -420,8 +421,8 @@ int main(int argc,char* argv[])
       printf("-i [filename] : input recv8 from binary file\n");
       printf("-o [filename] : output send8 in binary file\n");
       printf("-r : output result only\n");
-      printf("-b : print GPR in binary");
-      printf("-x : print GPR in hex");
+      printf("-b : print GPR in binary\n");
+      printf("-x : print GPR in hex\n");
       return 0;
     case 's':
       stepflag=1;
