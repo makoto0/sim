@@ -236,6 +236,8 @@ void command_input()
 	  printf("breakpoint ignore : %d (n = %d)\n",i,breakpoint[i]-1);
 	}
       }
+    } else if (strcmp(tok,"pc")==0) {
+      printf("FPcond : %d\n",fpcond);
     } else if (strcmp(tok,"dg")==0) {
       tok=strtok(NULL," \n");
       if (tok==NULL) {
@@ -276,6 +278,7 @@ void command_input()
       puts("ps : print statistics");
       puts("pp : print PC");
       puts("pb : print breakpoints");
+      puts("pc : print FPcond");
       puts("dg [n] : display GPR [n]");
       puts("df [n] : display FPR [n]");
     } else {
