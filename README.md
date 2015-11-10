@@ -24,6 +24,7 @@ db [addr] : [addr]に設定したbreakpointを削除
 pg [n] : print GPR [n]  
 pf [n] : print FPR [n]  
 pm [addr] : print memory [addr]  
+pa : print all registers  
 ps : print statistics  
 pp : print PC  
 pb : print breakpoints  
