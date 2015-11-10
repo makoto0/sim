@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdint.h>
+#include<math.h>
 #include"cpu.h"
 
 uint32_t pc=0;
@@ -339,6 +340,14 @@ void exec_inst(uint32_t inst)
     }
     pc++;
     addiu_count++;
+    break;
+  case OP_FSQRT:
+    fpr[r1].f=sqrt(fpr[r2].f);
+    if (!noprintflag) {
+      printf("fsqrt : f%d <- sqrt(f%d)\n",r1,r2);
+    }
+    pc++;
+    fsqrt_count++;
     break;
   default:
     printf("Unknown instruction\n");

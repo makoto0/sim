@@ -53,6 +53,7 @@ long long int fld_count=0;
 long long int bneq_count=0;
 long long int fmov_count=0;
 long long int addiu_count=0;
+long long int fsqrt_count=0;
 
 void print_statistics()
 {
@@ -88,6 +89,7 @@ void print_statistics()
   printf("bneq  : %lld\n",bneq_count);
   printf("fmov  : %lld\n",fmov_count);
   printf("addiu : %lld\n",addiu_count);
+  printf("fsqrt : %lld\n",fsqrt_count);
 }
 
 void printbin(uint32_t i)
