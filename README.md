@@ -27,5 +27,6 @@ pm [addr] : print memory [addr]
 ps : print statistics  
 pp : print PC  
 pb : print breakpoints  
+pc : print FPcond  
 dg [n] : display GPR [n]  
 df [n] : display FPR [n]  
