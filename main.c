@@ -483,6 +483,9 @@ int main(int argc,char* argv[])
   printf("\n");
   print_statistics();
 
+  if (recv8flag) {
+    fclose(fprecv8);
+  }
   if (send8flag) {
     fclose(fpsend8);
   }
