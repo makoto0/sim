@@ -239,7 +239,7 @@ void exec_inst(uint32_t inst)
     slt_count++;
     break;
   case OP_FSEQ:
-    if (fpr[r1].i==fpr[r2].i) {
+    if (fpr[r1].f==fpr[r2].f) {
       fpcond=1;
     } else {
       fpcond=0;
@@ -251,7 +251,7 @@ void exec_inst(uint32_t inst)
     fseq_count++;
     break;
   case OP_FSLT:
-    if (fpr[r1].i<fpr[r2].i) {
+    if (fpr[r1].f<fpr[r2].f) {
       fpcond=1;
     } else {
       fpcond=0;
