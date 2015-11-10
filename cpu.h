@@ -59,6 +59,7 @@ extern uint32_t bram[BRAM_NUM];
 extern FILE* fprecv8;
 extern FILE* fpsend8;
 
+extern int stepflag;
 extern int recv8flag;
 extern int send8flag;
 extern int noprintflag;
@@ -95,6 +96,9 @@ extern long long int bneq_count;
 extern long long int fmov_count;
 extern long long int addiu_count;
 extern long long int fsqrt_count;
+
+extern int nop_bp;
+extern int send8_bp;
 
 void exec_inst();
 

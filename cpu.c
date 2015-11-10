@@ -68,6 +68,9 @@ void exec_inst(uint32_t inst)
     if (!noprintflag) {
       printf("nop\n");
     }
+    if (nop_bp) {
+      stepflag=1;
+    }
     pc++;
     nop_count++;
     break;
@@ -292,6 +295,9 @@ void exec_inst(uint32_t inst)
     if (!noprintflag) {
       printf("send8 : r%d = ",r1);
       print8(gpr[r1]);
+    }
+    if (send8_bp) {
+      stepflag=1;
     }
     pc++;
     send8_count++;

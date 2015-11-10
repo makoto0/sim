@@ -55,6 +55,9 @@ long long int fmov_count=0;
 long long int addiu_count=0;
 long long int fsqrt_count=0;
 
+int nop_bp=0;
+int send8_bp=0;
+
 
 void printbin(uint32_t i)
 {
@@ -198,6 +201,21 @@ void command_input()
 	  puts("Invalid memory address.");
 	}
       }
+    } else if (strcmp(tok,"binst")==0) {
+      tok=strtok(NULL," \n");
+      if (tok==NULL) {
+	puts("Please enter instruction name.");
+      } else {
+	if (strcmp(tok,"nop")==0) {
+	  nop_bp=1;
+	  puts("breakpoint : nop");
+	} else if (strcmp(tok,"send8")==0) {
+	  send8_bp=1;
+	  puts("breakpoint : send8");
+	} else {
+	  puts("Unknown instruction.");
+	}
+      }
     } else if (strcmp(tok,"db")==0) {
       tok=strtok(NULL," \n");
       if (tok==NULL) {
@@ -300,6 +318,7 @@ void command_input()
       puts("s : step");
       puts("b [addr] : set breakpoint [addr]");
       puts("bi [addr] [n] : breakpoint ignore");
+      puts("binst [instname] : breakpoint instruction(nop and send8 only)");
       puts("db [addr] : delete breakpoint [addr]");
       puts("pg [n] : print GPR [n]");
       puts("pf [n] : print FPR [n]");

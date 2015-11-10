@@ -20,6 +20,7 @@ r , run : run
 s , step : step  
 b [addr] : [addr]にbreakpointを設定  
 bi [addr] [n] : はじめの[n]回はbreakpointに達しても停止しない  
+binst [instname] : [instname]の命令が来たらbreakする（現在はnopとsend8のみ）  
 db [addr] : [addr]に設定したbreakpointを削除  
 pg [n] : print GPR [n]  
 pf [n] : print FPR [n]  
