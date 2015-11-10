@@ -185,7 +185,7 @@ void exec_inst(uint32_t inst)
   case OP_FADD:
     fpr[r1].f=fpr[r2].f+fpr[r3].f;
     if (!noprintflag) {
-      printf("fadd : r%d <- r%d + r%d\n",r1,r2,r3);
+      printf("fadd : f%d <- f%d + f%d\n",r1,r2,r3);
     }
     pc++;
     fadd_count++;
@@ -193,7 +193,7 @@ void exec_inst(uint32_t inst)
   case OP_FMUL:
     fpr[r1].f=fpr[r2].f*fpr[r3].f;
     if (!noprintflag) {
-      printf("fmul : r%d <- r%d * r%d\n",r1,r2,r3);
+      printf("fmul : f%d <- f%d * f%d\n",r1,r2,r3);
     }
     pc++;
     fmul_count++;
@@ -201,7 +201,7 @@ void exec_inst(uint32_t inst)
   case OP_FINV:
     fpr[r1].f=1.0/fpr[r2].f;
     if (!noprintflag) {
-      printf("finv : r%d <- 1/r%d\n",r1,r2);
+      printf("finv : f%d <- 1 / f%d\n",r1,r2);
     }
     pc++;
     finv_count++;
@@ -213,7 +213,7 @@ void exec_inst(uint32_t inst)
       fpr[r1].f=fpr[r2].f;
     }
     if (!noprintflag) {
-      printf("fabs : r%d <- abs(r%d)\n",r1,r2);
+      printf("fabs : f%d <- abs(f%d)\n",r1,r2);
     }
     pc++;
     fabs_count++;
@@ -221,7 +221,7 @@ void exec_inst(uint32_t inst)
   case OP_FNEG:
     fpr[r1].f=-fpr[r2].f;
     if (!noprintflag) {
-      printf("fneg : r%d <- -r%d\n",r1,r2);
+      printf("fneg : f%d <- -f%d\n",r1,r2);
     }
     pc++;
     fneg_count++;
