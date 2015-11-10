@@ -135,7 +135,7 @@ void exec_inst(uint32_t inst)
   case OP_LD:
     gpr[r2]=sram[gpr[r1]+imm];
     if (!noprintflag) {
-      printf("st : r%d <- mem[r%d + %d]\n",r2,r1,imm);
+      printf("ld : r%d <- mem[r%d + %d]\n",r2,r1,imm);
     }
     pc++;
     ld_count++;
