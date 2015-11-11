@@ -54,6 +54,7 @@ long long int bneq_count=0;
 long long int fmov_count=0;
 long long int addiu_count=0;
 long long int fsqrt_count=0;
+long long int inst_count=0;
 
 int nop_bp=0;
 int send8_bp=0;
@@ -140,6 +141,7 @@ void print_statistics()
   printf("fmov  : %lld\n",fmov_count);
   printf("addiu : %lld\n",addiu_count);
   printf("fsqrt : %lld\n",fsqrt_count);
+  printf("---total : %lld---\n",inst_count);
 }
 
 void command_input()
@@ -368,6 +370,7 @@ void run()
   while(1) {
     if (bram[pc]==HALT) {
       halt_count++;
+      inst_count++;
       break;
     }
 
@@ -382,6 +385,7 @@ void run()
     }
 
     exec_inst(bram[pc]);
+    inst_count++;
 
     display_reg();
   }
