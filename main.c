@@ -313,6 +313,12 @@ void command_input()
       }
     } else if (strcmp(tok,"pa")==0) {
       print_reg();
+    } else if (strcmp(tok,"pon")==0) {
+      noprintflag=0;
+      puts("print inst : on");
+    } else if (strcmp(tok,"poff")==0) {
+      noprintflag=1;
+      puts("print inst : off");
     } else if (strcmp(tok,"h")==0 || strcmp(tok,"help")==0) {
       puts("commands");
       puts("h : help");
@@ -332,6 +338,7 @@ void command_input()
       puts("pc : print FPcond");
       puts("dg [n] : display GPR [n]");
       puts("df [n] : display FPR [n]");
+      puts("pon/poff : print instructions on/off");
     } else {
       puts("Unknown command.");
     }

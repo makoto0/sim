@@ -32,3 +32,4 @@ pb : print breakpoints
 pc : print FPcond  
 dg [n] : display GPR [n]  
 df [n] : display FPR [n]  
+pon/poff : 画面表示on/off  
