@@ -36,7 +36,7 @@ void print8(uint32_t i)
   printf("\n");
 }
 
-void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r3,uint32_t *shamt,uint32_t *funct,int16_t *imm,uint16_t *uimm,uint32_t *addr)
+void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r3,uint32_t *shamt,uint32_t *funct,int16_t *imm,uint16_t *uimm,int16_t *addr)
 {
   *opcode=inst>>26;
   *r1=(inst>>21)&0x1f;
@@ -51,9 +51,10 @@ void decode(uint32_t inst,uint32_t *opcode,uint32_t *r1,uint32_t *r2,uint32_t *r
 
 void exec_inst(uint32_t inst)
 {
-  uint32_t opcode,r1,r2,r3,shamt,funct,addr;
+  uint32_t opcode,r1,r2,r3,shamt,funct;
   int16_t imm;
   uint16_t uimm;
+  int16_t addr;
 
   uint32_t recvdata=0;
   uint8_t senddata=0;
