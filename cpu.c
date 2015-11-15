@@ -2,6 +2,7 @@
 #include<stdint.h>
 #include<math.h>
 #include"cpu.h"
+#include"fpu.h"
 
 uint32_t pc=0;
 uint32_t fpcond=0;
@@ -186,7 +187,7 @@ void exec_inst(uint32_t inst)
     srl_count++;
     break;
   case OP_FADD:
-    fpr[r1].f=fpr[r2].f+fpr[r3].f;
+    fpr[r1].i=fadd(fpr[r2].i,fpr[r3].i);
     if (!noprintflag) {
       printf("fadd : f%d <- f%d + f%d\n",r1,r2,r3);
     }
