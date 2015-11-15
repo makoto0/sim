@@ -59,6 +59,11 @@ long long int inst_count=0;
 int nop_bp=0;
 int send8_bp=0;
 
+uint32_t finv_table1[1024];
+uint32_t finv_table2[1024];
+uint32_t fsqrt_table1[1024];
+uint32_t fsqrt_table2[1024];
+
 
 void printbin(uint32_t i)
 {
@@ -440,9 +445,59 @@ void readinst(FILE* fp)
   }
 }
 
+uint32_t read_nbit(FILE *fp, int n){
+	uint32_t data = 0;
+	int i;
+	int bit[32];
+	char LF;
+	for(i=0; i<n; i++) bit[i] = getc(fp);
+    LF = getc(fp);
+	for(i=0; i<n; i++){
+		data = data * 2;
+		if(bit[i]==49) data = data + 1;
+	}
+	return data;
+}
+
+int readtable()
+{
+  FILE *finv_fp1,*finv_fp2,*fsqrt_fp1,*fsqrt_fp2;
+  int i;
+
+  finv_fp1=fopen("finv_table1.txt","r");
+  if (finv_fp1==NULL) {
+    puts("can't open file : finv_table1.txt");
+    return 1;
+  }
+  finv_fp2=fopen("finv_table2.txt","r");
+  if (finv_fp2==NULL) {
+    puts("can't open file : finv_table2.txt");
+    return 1;
+  }
+  fsqrt_fp1=fopen("fsqrt_table1.txt","r");
+  if (fsqrt_fp1==NULL) {
+    puts("can't open file : fsqrt_table1.txt");
+    return 1;
+  }
+  fsqrt_fp2=fopen("fsqrt_table2.txt","r");
+  if (fsqrt_fp2==NULL) {
+    puts("can't open file : fsqrt_table2.txt");
+    return 1;
+  }
+
+  for (i=0;i<1024;i++) {
+    finv_table1[i]=read_nbit(finv_fp1,23);
+    finv_table2[i]=read_nbit(finv_fp2,13);
+    fsqrt_table1[i]=read_nbit(fsqrt_fp1,23);
+    fsqrt_table2[i]=read_nbit(fsqrt_fp2,13);
+  }
+
+  return 0;
+}
+
 int main(int argc,char* argv[])
 {
-  FILE* fp;
+  FILE *fp;
   int option;
 
   if (argc<2) {
@@ -508,8 +563,11 @@ int main(int argc,char* argv[])
   }
 
   readinst(fp);
-
   fclose(fp);
+
+  if (readtable()==1) {
+    return 1;
+  }
 
   run();
 

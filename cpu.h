@@ -100,6 +100,11 @@ extern long long int fsqrt_count;
 extern int nop_bp;
 extern int send8_bp;
 
+extern uint32_t finv_table1[1024];
+extern uint32_t finv_table2[1024];
+extern uint32_t fsqrt_table1[1024];
+extern uint32_t fsqrt_table2[1024];
+
 void exec_inst();
 
 #endif

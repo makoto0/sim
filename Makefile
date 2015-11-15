@@ -1,2 +1,2 @@
-main:main.c cpu.c fadd.c
-	gcc -Wall -o rin main.c cpu.c fadd.c -lm
+main:main.c cpu.c fadd.c finv.c fsqrt.c
+	gcc -Wall -o rin main.c cpu.c fadd.c finv.c fsqrt.c
