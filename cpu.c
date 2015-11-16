@@ -205,7 +205,7 @@ void exec_inst(uint32_t inst)
     if (x86flag) {
       fpr[r1].f=fpr[r2].f*fpr[r3].f;
     } else {
-      fpr[r1].f=fpr[r2].f*fpr[r3].f;
+      fpr[r1].i=fmul(fpr[r2].i,fpr[r3].i);
     }
     if (!noprintflag) {
       printf("fmul : f%d <- f%d * f%d\n",r1,r2,r3);
