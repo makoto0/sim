@@ -492,6 +492,11 @@ int readtable()
     fsqrt_table2[i]=read_nbit(fsqrt_fp2,13);
   }
 
+  fclose(finv_fp1);
+  fclose(finv_fp2);
+  fclose(fsqrt_fp1);
+  fclose(fsqrt_fp2);
+
   return 0;
 }
 
