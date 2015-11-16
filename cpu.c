@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdint.h>
+#include<math.h>
 #include"cpu.h"
 #include"fpu.h"
 
@@ -189,7 +190,11 @@ void exec_inst(uint32_t inst)
     srl_count++;
     break;
   case OP_FADD:
-    fpr[r1].i=fadd(fpr[r2].i,fpr[r3].i);
+    if (x86flag) {
+      fpr[r1].f=fpr[r2].f+fpr[r3].f;
+    } else {
+      fpr[r1].i=fadd(fpr[r2].i,fpr[r3].i);
+    }
     if (!noprintflag) {
       printf("fadd : f%d <- f%d + f%d\n",r1,r2,r3);
     }
@@ -197,7 +202,11 @@ void exec_inst(uint32_t inst)
     fadd_count++;
     break;
   case OP_FMUL:
-    fpr[r1].f=fpr[r2].f*fpr[r3].f;
+    if (x86flag) {
+      fpr[r1].f=fpr[r2].f*fpr[r3].f;
+    } else {
+      fpr[r1].f=fpr[r2].f*fpr[r3].f;
+    }
     if (!noprintflag) {
       printf("fmul : f%d <- f%d * f%d\n",r1,r2,r3);
     }
@@ -205,8 +214,12 @@ void exec_inst(uint32_t inst)
     fmul_count++;
     break;
   case OP_FINV:
-    finv_addr=(fpr[r2].i & 0x7FE000)>>13;
-    fpr[r1].i=finv(fpr[r2].i,finv_table1[finv_addr],finv_table2[finv_addr]);
+    if (x86flag) {
+      fpr[r1].f=1.0/fpr[r2].f;
+    } else {
+      finv_addr=(fpr[r2].i & 0x7FE000)>>13;
+      fpr[r1].i=finv(fpr[r2].i,finv_table1[finv_addr],finv_table2[finv_addr]);
+    }
     if (!noprintflag) {
       printf("finv : f%d <- 1 / f%d\n",r1,r2);
     }
@@ -352,8 +365,12 @@ void exec_inst(uint32_t inst)
     addiu_count++;
     break;
   case OP_FSQRT:
-    fsqrt_addr=(fpr[r2].i & 0xFFC000)>>14;
-    fpr[r1].i=fsqrt(fpr[r2].i,fsqrt_table1[fsqrt_addr],fsqrt_table2[fsqrt_addr]);
+    if (x86flag) {
+      fpr[r1].f=sqrt(fpr[r2].f);
+    } else {
+      fsqrt_addr=(fpr[r2].i & 0xFFC000)>>14;
+      fpr[r1].i=fsqrt(fpr[r2].i,fsqrt_table1[fsqrt_addr],fsqrt_table2[fsqrt_addr]);
+    }
     if (!noprintflag) {
       printf("fsqrt : f%d <- sqrt(f%d)\n",r1,r2);
     }

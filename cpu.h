@@ -63,6 +63,7 @@ extern int stepflag;
 extern int recv8flag;
 extern int send8flag;
 extern int noprintflag;
+extern int x86flag;
 
 extern long long int nop_count;
 extern long long int add_count;
