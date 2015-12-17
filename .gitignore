@@ -1,0 +1,6 @@
+sim/rin
+simple_sim/rin
+*.o
+*.bin
+*.ppm
+*~
